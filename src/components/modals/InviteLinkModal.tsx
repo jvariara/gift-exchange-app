@@ -42,13 +42,13 @@ const InviteLinkModal = ({
 
           <div className="flex items-center gap-4">
             <Input
-              value={`${process.env.NEXT_PUBLIC_SERVER_URL}/dashboard/join-group?token=${token}`}
+              value={`${process.env.NEXT_PUBLIC_APP_URL}/dashboard/join-group?token=${token}`}
               readOnly
             />
             <Button
               onClick={() =>
                 navigator.clipboard.writeText(
-                  `${process.env.NEXT_PUBLIC_SERVER_URL}/dashboard/join-group?token=${token}`
+                  `${process.env.NEXT_PUBLIC_APP_URL}/dashboard/join-group?token=${token}`
                 )
               }
             >
