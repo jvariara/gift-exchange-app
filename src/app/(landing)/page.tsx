@@ -49,7 +49,7 @@ const Page = () => {
 
             <div className="w-full max-w-80">
               <ShinyButton
-                href="/create-group"
+                href="/dashboard"
                 className="relative z-10 h-14 w-full text-base shadow-lg transition-shadow duration-300 hover:shadow-xl"
               >
                 Create Your Group
