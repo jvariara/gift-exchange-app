@@ -11,11 +11,111 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Post {
-  id        Int      @id @default(autoincrement())
-  name      String
+model User {
+  id         String  @id @default(cuid())
+  externalId String? @unique // id that clerk gives us
+  name       String
+  email      String  @unique
+  apiKey     String  @unique @default(cuid())
+
+  groups      GroupMember[]
+  ownedGroups Group[]
+
+  questions      UserQuestion[]
+  questionMethod QuestionMethod @default(RANDOM)
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@index([name])
+  @@index([email, apiKey])
+}
+
+model Group {
+  id              String            @id @default(cuid())
+  name            String
+  groupInvitation GroupInvitation[]
+  code            String            @unique
+  hasDrawStarted  Boolean           @default(false)
+
+  createdById String
+  createdBy   User   @relation(fields: [createdById], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  members   GroupMember[]
+  questions GroupQuestion[]
+}
+
+model GroupInvitation {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  groupId   String
+  group     Group    @relation(fields: [groupId], references: [id])
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([token, groupId])
+}
+
+model GroupMember {
+  id          String  @id @default(cuid())
+  userId      String
+  groupId     String
+  user        User    @relation(fields: [userId], references: [id])
+  group       Group   @relation(fields: [groupId], references: [id])
+  isAdmin     Boolean @default(false)
+  hasAnswered Boolean @default(false)
+  drawn       Draw[]  @relation("DrawnParticipant")
+  drawing     Draw[]  @relation("DrawingParticipant")
+
+  @@unique([userId, groupId])
+}
+
+enum QuestionMethod {
+  RANDOM
+  CUSTOM
+}
+
+model Question {
+  id       String  @id @default(cuid())
+  text     String
+  isCustom Boolean @default(false)
+
+  groupQuestions GroupQuestion[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model GroupQuestion {
+  id            String         @id @default(cuid())
+  groupId       String
+  questionId    String
+  group         Group          @relation(fields: [groupId], references: [id])
+  question      Question       @relation(fields: [questionId], references: [id])
+  userQuestions UserQuestion[]
+
+  @@unique([groupId, questionId])
+}
+
+model UserQuestion {
+  id              String        @id @default(cuid())
+  userId          String
+  groupQuestionId String
+  user            User          @relation(fields: [userId], references: [id])
+  groupQuestion   GroupQuestion @relation(fields: [groupQuestionId], references: [id])
+  answer          String
+}
+
+model Draw {
+  id      String @id @default(cuid())
+  groupId String
+
+  drawingParticipantId String
+  drawnParticipantId   String
+  drawingParticipant   GroupMember @relation("DrawingParticipant", fields: [drawingParticipantId], references: [id])
+  drawnParticipant     GroupMember @relation("DrawnParticipant", fields: [drawnParticipantId], references: [id])
+
+  drawnAt       DateTime     @default(now())
 }
