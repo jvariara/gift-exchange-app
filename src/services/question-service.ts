@@ -107,7 +107,7 @@ class QuestionService {
             db.userQuestion.create({
               data: {
                 userId: member.userId,
-                questionId: question.id,
+                groupQuestionId: question.id,
                 answer: ""
               },
             })
