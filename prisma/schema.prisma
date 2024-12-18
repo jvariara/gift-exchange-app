@@ -35,6 +35,7 @@ model Group {
   name            String
   groupInvitation GroupInvitation[]
   code            String            @unique
+  budget          Float?
   hasDrawStarted  Boolean           @default(false)
 
   createdById String
@@ -117,5 +118,5 @@ model Draw {
   drawingParticipant   GroupMember @relation("DrawingParticipant", fields: [drawingParticipantId], references: [id])
   drawnParticipant     GroupMember @relation("DrawnParticipant", fields: [drawnParticipantId], references: [id])
 
-  drawnAt       DateTime     @default(now())
+  drawnAt DateTime @default(now())
 }

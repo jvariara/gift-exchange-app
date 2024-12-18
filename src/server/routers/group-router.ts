@@ -39,7 +39,7 @@ export const groupRouter = router({
     .mutation(async ({ c, ctx, input }) => {
       const questionService = new QuestionService()
       const { user } = ctx
-      const { name, questionMethod, customQuestions } = input
+      const { name, questionMethod, customQuestions, budget } = input
 
       // Validate input
       if (!name || name.trim() === "") {
@@ -55,6 +55,7 @@ export const groupRouter = router({
           name,
           code: groupCode,
           createdById: user.id,
+          budget: budget as number || null,
         },
       })
 

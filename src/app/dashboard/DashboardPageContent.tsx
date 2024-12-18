@@ -7,7 +7,7 @@ import { Modal } from "@/components/ui/modal"
 import { client } from "@/lib/client"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { format } from "date-fns"
-import { ArrowRight, Trash2, User } from "lucide-react"
+import { ArrowRight, DollarSign, Trash2, User } from "lucide-react"
 import Link from "next/link"
 import { useState } from "react"
 
@@ -107,6 +107,14 @@ const DashboardPageContent = ({ userId }: DashboardPageContentProps) => {
                   <span className="font-medium">Total members:</span>
                   <span className="ml-1">{group._count.members}</span>
                 </div>
+
+                {group.budget && group.budget > 0 && (
+                  <div className="flex items-center text-sm/5 text-gray-600">
+                    <DollarSign className="size-4 mr-2 text-brand-500" />
+                    <span className="font-medium">Budget:</span>
+                    <span className="ml-1">{group.budget}</span>
+                  </div>
+                )}
               </div>
 
               <div className="flex items-center justify-between mt-4">

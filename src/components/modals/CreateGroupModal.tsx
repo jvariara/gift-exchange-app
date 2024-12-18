@@ -30,6 +30,7 @@ const CreateGroupModal = ({
     mutationFn: async (data: GroupForm) => {
       const submitData: GroupForm = {
         name: data.name,
+        budget: data.budget,
         questionMethod: data.questionMethod,
         customQuestions:
           data.questionMethod === "custom"
@@ -47,6 +48,7 @@ const CreateGroupModal = ({
         name: "",
         questionMethod: "random",
         customQuestions: [{ question: "" }, { question: "" }, { question: "" }],
+        budget: 0,
       })
       setInvitationLink(data.invitationLink.token)
       setTimeout(() => {
@@ -72,6 +74,7 @@ const CreateGroupModal = ({
       name: "",
       questionMethod: "random",
       customQuestions: [{ question: "" }, { question: "" }, { question: "" }],
+      budget: 0,
     },
   })
 
@@ -83,6 +86,8 @@ const CreateGroupModal = ({
   const questionMethod = watch("questionMethod")
 
   const onSubmit = (data: GroupForm) => {
+    console.log(typeof data.budget)
+
     mutate(data)
   }
 
@@ -120,6 +125,21 @@ const CreateGroupModal = ({
               {errors.name && (
                 <p className="mt-1 text-sm text-red-500">
                   {errors.name.message}
+                </p>
+              )}
+            </div>
+
+            <div>
+              <Label htmlFor="budget">Budget</Label>
+              <Input
+                id="budget"
+                {...register("budget")}
+                className="w-full"
+                type="number"
+              />
+              {errors.budget && (
+                <p className="mt-1 text-sm text-red-500">
+                  {errors.budget.message}
                 </p>
               )}
             </div>
