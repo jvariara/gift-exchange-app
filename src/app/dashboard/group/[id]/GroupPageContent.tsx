@@ -2,6 +2,7 @@
 import LoadingSpinner from "@/components/LoadingSpinner"
 import InviteLinkModal from "@/components/modals/InviteLinkModal"
 import { Button } from "@/components/ui/button"
+import { Card } from "@/components/ui/card"
 import { client } from "@/lib/client"
 import { GroupWithDetailedIncludes } from "@/lib/types"
 import { Group } from "@prisma/client"
@@ -63,7 +64,26 @@ const GroupPageContent = ({
   })
 
   return (
-    <>
+    <div className="flex flex-col gap-y-4">
+      {/* Group info */}
+      <Card className="flex flex-row items-center justify-center rounded-2xl flex-1 text-center p-6">
+        <div className="flex flex-1 flex-col">
+          <h2 className="text-lg/7 font-medium tracking-tight text-gray-950">
+            Group Admin
+          </h2>
+          <p className="mt-2 max-w-lg text-md/6 text-gray-600">
+            {group.members.find((m) => m.isAdmin)?.user.name}
+          </p>
+        </div>
+        <div>
+          <h2 className="text-lg/7 font-medium tracking-tight text-gray-950">
+            Budget
+          </h2>
+          <p className="mt-2 max-w-lg text-md/6 text-gray-600">
+            {group.budget ? group.budget : "Budget not set"}
+          </p>
+        </div>
+      </Card>
       {group.hasDrawStarted ? (
         <div className="grid gap-4 lg:grid-cols-2 lg:grid-rows-2">
           {/* first bento grid element */}
@@ -259,7 +279,7 @@ const GroupPageContent = ({
           </div>
         </div>
       )}
-    </>
+    </div>
   )
 }
 
