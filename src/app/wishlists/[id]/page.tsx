@@ -4,7 +4,7 @@ import { WishlistItemCard } from "@/components/WishlistItemCard"
 import { Button } from "@/components/ui/button"
 import { Plus } from "lucide-react"
 import { db } from "@/db"
-import { auth } from "@/auth"
+import { currentUser } from "@clerk/nextjs/server"
 
 interface WishlistPageProps {
   params: {
@@ -13,7 +13,7 @@ interface WishlistPageProps {
 }
 
 export default async function WishlistPage({ params }: WishlistPageProps) {
-  const session = await auth()
+  const session = await currentUser()
   if (!session?.user) {
     return null
   }

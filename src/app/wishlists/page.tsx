@@ -3,10 +3,10 @@ import { WishlistCard } from "@/components/WishlistCard"
 import { Button } from "@/components/ui/button"
 import { Plus } from "lucide-react"
 import { db } from "@/db"
-import { auth } from "@/auth"
+import { currentUser } from "@clerk/nextjs/server"
 
 export default async function WishlistsPage() {
-  const session = await auth()
+  const session = await currentUser()
   if (!session?.user) {
     return null
   }
