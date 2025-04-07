@@ -12,20 +12,29 @@ import { client } from "@/lib/client"
 import { useQueryClient } from "@tanstack/react-query"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
+import { GroupWithDetailedIncludes } from "@/lib/types"
 
 interface StartDrawModalProps {
-  group: Group
-  hasEveryoneAnswered: boolean
+  isOpen: boolean
+  onClose: () => void
+  groupId: string
   children: React.ReactNode
+  group: GroupWithDetailedIncludes
+  hasEveryoneAnswered: boolean
 }
 
-const StartDrawModal = ({ isOpen, onClose, groupId }: StartDrawModalProps) => {
+const StartDrawModal = ({ isOpen, onClose, groupId, children, group, hasEveryoneAnswered }: StartDrawModalProps) => {
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
   const queryClient = useQueryClient()
 
-  const startGroupDraw = client.group.startGroupDraw.useMutation({
-    onSuccess: async () => {
+  const handleStartDraw = async () => {
+    setIsLoading(true)
+    try {
+      await client.group.startGroupDraw.$post({
+        id: groupId
+      })
+      
       // Invalidate relevant queries
       await queryClient.invalidateQueries({ queryKey: ["drawn-participant-answers", groupId] })
       await queryClient.invalidateQueries({ queryKey: ["group-questions", groupId] })
@@ -39,13 +48,6 @@ const StartDrawModal = ({ isOpen, onClose, groupId }: StartDrawModalProps) => {
 
       onClose()
       router.refresh()
-    },
-  })
-
-  const handleStartDraw = async () => {
-    setIsLoading(true)
-    try {
-      await startGroupDraw.mutateAsync({ id: groupId })
     } catch (error) {
       console.error("Failed to start draw:", error)
     } finally {

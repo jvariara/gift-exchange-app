@@ -14,7 +14,7 @@ interface WishlistPageProps {
 
 export default async function WishlistPage({ params }: WishlistPageProps) {
   const session = await currentUser()
-  if (!session?.user) {
+  if (!session) {
     return null
   }
 
@@ -36,7 +36,7 @@ export default async function WishlistPage({ params }: WishlistPageProps) {
   }
 
   // Check if the user has access to this wishlist
-  if (wishlist.userId !== session.user.id && !wishlist.isPublic) {
+  if (wishlist.userId !== session.id && !wishlist.isPublic) {
     notFound()
   }
 
@@ -49,7 +49,7 @@ export default async function WishlistPage({ params }: WishlistPageProps) {
         )}
       </div>
 
-      {wishlist.userId === session.user.id && (
+      {wishlist.userId === session.id && (
         <div className="mb-8">
           <Button>
             <Plus className="mr-2 h-4 w-4" />
@@ -74,11 +74,11 @@ export default async function WishlistPage({ params }: WishlistPageProps) {
           <div className="mx-auto flex max-w-[420px] flex-col items-center justify-center text-center">
             <h3 className="mt-4 text-lg font-semibold">No items yet</h3>
             <p className="mb-4 mt-2 text-sm text-muted-foreground">
-              {wishlist.userId === session.user.id
+              {wishlist.userId === session.id
                 ? "Add your first item to your wishlist."
                 : "This wishlist doesn't have any items yet."}
             </p>
-            {wishlist.userId === session.user.id && (
+            {wishlist.userId === session.id && (
               <Button>
                 <Plus className="mr-2 h-4 w-4" />
                 Add Item

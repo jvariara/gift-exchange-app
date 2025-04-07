@@ -5,7 +5,7 @@ import { notFound } from "next/navigation"
 import GroupPageContent from "./GroupPageContent"
 import AnswerQuestionModal from "@/components/modals/AnswerQuestionModal"
 import { Button } from "@/components/ui/button"
-import StartDrawModal from "@/components/modals/StartDrawModal"
+import StartDrawButton from "./StartDrawButton"
 
 interface PageProps {
   params: {
@@ -77,7 +77,6 @@ const Page = async ({ params }: PageProps) => {
 
   if (!groupMember) return notFound()
 
-
   return (
     <DashboardPage
       title={`${group.name}`}
@@ -93,14 +92,12 @@ const Page = async ({ params }: PageProps) => {
       }
       cta2={
         groupMember.isAdmin && !group.hasDrawStarted ? (
-          <StartDrawModal
+          <StartDrawButton
             group={group}
             hasEveryoneAnswered={group.members.every(
               (member) => member.hasAnswered
             )}
-          >
-            <Button className="w-full sm:w-fit">Start Draw</Button>
-          </StartDrawModal>
+          />
         ) : null
       }
     >

@@ -7,13 +7,13 @@ import { currentUser } from "@clerk/nextjs/server"
 
 export default async function WishlistsPage() {
   const session = await currentUser()
-  if (!session?.user) {
+  if (!session) {
     return null
   }
 
   const wishlists = await db.wishlist.findMany({
     where: {
-      userId: session.user.id,
+      userId: session.id,
     },
     include: {
       items: true,
