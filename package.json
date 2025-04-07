@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "deploy": "wrangler deploy",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "setup-questions": "ts-node -P scripts/tsconfig.json scripts/setupQuestions.ts"
   },
   "dependencies": {
     "@clerk/nextjs": "^6.6.0",
@@ -20,6 +21,7 @@
     "@radix-ui/react-label": "^2.1.0",
     "@radix-ui/react-slot": "^1.1.0",
     "@radix-ui/react-switch": "^1.1.1",
+    "@radix-ui/react-tabs": "^1.1.3",
     "@tanstack/react-query": "^5.51.23",
     "@upstash/redis": "^1.34.0",
     "class-variance-authority": "^0.7.1",

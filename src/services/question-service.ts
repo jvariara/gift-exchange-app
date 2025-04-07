@@ -11,7 +11,10 @@ class QuestionService {
     const questions = await Promise.all(
       predefinedQuestions.map((question) =>
         db.question.create({
-          data: { text: question },
+          data: { 
+            text: question,
+            isCustom: false // Explicitly set predefined questions as not custom
+          },
         })
       )
     )
@@ -23,8 +26,12 @@ class QuestionService {
    * Select 3 random questions for a group
    */
   async selectRandomQuestionsForGroup(groupId: string) {
-    // Get all predefined questions
-    const allQuestions = await db.question.findMany()
+    // Get all predefined questions (where isCustom is false)
+    const allQuestions = await db.question.findMany({
+      where: {
+        isCustom: false
+      }
+    })
 
     // Randomly select 3 unique questions
     const selectedQuestions = this.getRandomQuestions(allQuestions, 3)

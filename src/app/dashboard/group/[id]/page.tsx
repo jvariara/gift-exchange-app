@@ -39,7 +39,11 @@ const Page = async ({ params }: PageProps) => {
       members: {
         select: {
           isAdmin: true,
-          user: true,
+          user: {
+            include: {
+              wishlistItems: true
+            }
+          },
           hasAnswered: true,
           id: true,
         },

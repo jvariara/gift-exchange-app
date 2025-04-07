@@ -1,4 +1,5 @@
 import { Prisma } from "@prisma/client"
+import { Group, User, WishlistItem } from "@prisma/client"
 
 const groupInclude = Prisma.validator<Prisma.GroupInclude>()({
   members: {
@@ -11,6 +12,7 @@ const groupInclude = Prisma.validator<Prisma.GroupInclude>()({
           name: true,
           id: true,
           email: true,
+          wishlistItems: true,
         },
       },
     },
@@ -30,6 +32,13 @@ const groupInclude = Prisma.validator<Prisma.GroupInclude>()({
   },
 })
 
-export type GroupWithDetailedIncludes = Prisma.GroupGetPayload<{
-  include: typeof groupInclude
-}>
+export type GroupWithDetailedIncludes = Group & {
+  members: {
+    id: string
+    isAdmin: boolean
+    hasAnswered: boolean
+    user: User & {
+      wishlistItems: WishlistItem[]
+    }
+  }[]
+}

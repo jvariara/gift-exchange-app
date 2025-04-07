@@ -7,6 +7,8 @@ import { client } from "@/lib/client"
 import { GroupWithDetailedIncludes } from "@/lib/types"
 import { Group } from "@prisma/client"
 import { useQuery } from "@tanstack/react-query"
+import { Gift } from "lucide-react"
+import Link from "next/link"
 
 interface GroupPageContentProps {
   group: GroupWithDetailedIncludes
@@ -19,31 +21,34 @@ const GroupPageContent = ({
   hasAnsweredQuestions,
   hasEveryoneAnswered,
 }: GroupPageContentProps) => {
-  const { data: groupQuestions, isPending: isGroupQuestionsLoading } = useQuery(
+  const { data: groupQuestions, isPending: isGroupQuestionsLoading, refetch: refetchGroupQuestions } = useQuery(
     {
-      queryKey: ["group-questions"],
+      queryKey: ["group-questions", group.id],
       queryFn: async () => {
         const res = await client.group.getGroupQuestions.$get({ id: group.id })
         const { questions } = await res.json()
         return questions
       },
+      enabled: !!group.id,
     }
   )
 
-  const { data: groupMembers, isPending: isGroupMembersLoading } = useQuery({
+  const { data: groupMembers, isPending: isGroupMembersLoading, refetch: refetchGroupMembers } = useQuery({
     queryKey: [`group-members-${group.id}`],
     queryFn: async () => {
       const res = await client.group.getGroupMembers.$get({ id: group.id })
       const { groupMembers } = await res.json()
       return groupMembers
     },
+    enabled: !!group.id,
   })
 
   const {
     data: questionsWithAnswers,
     isPending: isQuestionsWithAnswersLoading,
+    refetch: refetchQuestionsWithAnswers
   } = useQuery({
-    queryKey: ["drawn-participant-answers"],
+    queryKey: ["drawn-participant-answers", group.id],
     queryFn: async () => {
       const res =
         await client.group.getQuestionsWithDrawnParticipantsAnswers.$get({
@@ -52,36 +57,64 @@ const GroupPageContent = ({
       const { questionsWithDrawnParticipantAnswers } = await res.json()
       return questionsWithDrawnParticipantAnswers
     },
+    enabled: !!group.id && group.hasDrawStarted,
   })
 
   const { data: invitation, isPending: isInvitationLoading } = useQuery({
-    queryKey: ["group-invite-token"],
+    queryKey: ["group-invite-token", group.id],
     queryFn: async () => {
       const res = await client.group.getGroupInviteLink.$get({ id: group.id })
       const { groupInvitation } = await res.json()
       return groupInvitation
     },
+    enabled: !!group.id,
   })
 
   return (
     <div className="flex flex-col gap-y-4">
       {/* Group info */}
-      <Card className="flex flex-row items-center justify-center rounded-2xl flex-1 text-center p-6">
-        <div className="flex flex-1 flex-col">
-          <h2 className="text-lg/7 font-medium tracking-tight text-gray-950">
-            Group Admin
-          </h2>
-          <p className="mt-2 max-w-lg text-md/6 text-gray-600">
-            {group.members.find((m) => m.isAdmin)?.user.name}
-          </p>
+      <Card className="flex flex-col rounded-2xl flex-1 p-8 bg-gradient-to-br from-brand-50 to-white">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-6 mb-8">
+          <div className="flex items-center gap-4">
+            <div className="size-16 bg-brand-100 rounded-xl flex items-center justify-center shadow-sm">
+              <p className="text-brand-950 font-semibold text-2xl">
+                {group.members.find((m) => m.isAdmin)?.user.name[0]}
+              </p>
+            </div>
+            <div className="flex flex-col">
+              <h2 className="text-xl font-semibold tracking-tight text-gray-950">
+                Group Admin
+              </h2>
+              <p className="text-md text-gray-600">
+                {group.members.find((m) => m.isAdmin)?.user.name}
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-4">
+            <div className="size-16 bg-green-50 rounded-xl flex items-center justify-center shadow-sm">
+              <p className="text-green-600 font-semibold text-xl">
+                ${group.budget || "0"}
+              </p>
+            </div>
+            <div className="flex flex-col">
+              <h2 className="text-xl font-semibold tracking-tight text-gray-950">
+                Budget
+              </h2>
+              <p className="text-md text-gray-600">
+                Per Person
+              </p>
+            </div>
+          </div>
         </div>
-        <div>
-          <h2 className="text-lg/7 font-medium tracking-tight text-gray-950">
-            Budget
-          </h2>
-          <p className="mt-2 max-w-lg text-md/6 text-gray-600">
-            {group.budget ? group.budget : "Budget not set"}
-          </p>
+
+        <div className="flex flex-row items-center justify-center">
+          <Link href={`/dashboard/group/${group.id}/wishlists`} className="flex-1 max-w-md mx-auto">
+            <Button className="w-full gap-x-2 py-6 text-lg shadow-sm bg-brand-50 hover:bg-brand-100 text-brand-900" variant="outline">
+              <Gift className="h-5 w-5" />
+              View Wishlists
+            </Button>
+          </Link>
         </div>
       </Card>
       {group.hasDrawStarted ? (

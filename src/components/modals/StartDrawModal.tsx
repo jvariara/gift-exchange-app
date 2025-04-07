@@ -1,93 +1,79 @@
 "use client"
-import { Group } from "@prisma/client"
-import React, { PropsWithChildren, useState } from "react"
-import LoadingSpinner from "../LoadingSpinner"
-import { Modal } from "../ui/modal"
-import { Button } from "../ui/button"
-import { useMutation } from "@tanstack/react-query"
+import { Button } from "@/components/ui/button"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog"
 import { client } from "@/lib/client"
+import { useQueryClient } from "@tanstack/react-query"
 import { useRouter } from "next/navigation"
+import { useState } from "react"
 
-interface StartDrawModalProps extends PropsWithChildren {
-  containerClassName?: string
-  hasEveryoneAnswered: boolean
+interface StartDrawModalProps {
   group: Group
+  hasEveryoneAnswered: boolean
+  children: React.ReactNode
 }
 
-const StartDrawModal = ({
-  group,
-  hasEveryoneAnswered,
-  children,
-  containerClassName,
-}: StartDrawModalProps) => {
-  const [isOpen, setIsOpen] = useState(false)
+const StartDrawModal = ({ isOpen, onClose, groupId }: StartDrawModalProps) => {
+  const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
+  const queryClient = useQueryClient()
 
-  const { mutate: startGroupDraw, isPending: isStartGroupDrawPending } =
-    useMutation({
-      mutationFn: async ({ id }: { id: string }) => {
-        const response = await client.group.startGroupDraw.$post({ id })
-        const result = await response.json()
+  const startGroupDraw = client.group.startGroupDraw.useMutation({
+    onSuccess: async () => {
+      // Invalidate relevant queries
+      await queryClient.invalidateQueries({ queryKey: ["drawn-participant-answers", groupId] })
+      await queryClient.invalidateQueries({ queryKey: ["group-questions", groupId] })
+      await queryClient.invalidateQueries({ queryKey: [`group-members-${groupId}`] })
+      
+      // Update the group data in the cache to reflect that the draw has started
+      queryClient.setQueryData(["group", groupId], (oldData: any) => ({
+        ...oldData,
+        hasDrawStarted: true
+      }))
 
-        return result
-      },
-      onSuccess: () => {
-        router.refresh()
-        setIsOpen(false)
-      }
-    })
+      onClose()
+      router.refresh()
+    },
+  })
 
-  if (!group || isStartGroupDrawPending) {
-    return (
-      <div className="flex items-center justify-center flex-1 h-full w-full">
-        <LoadingSpinner />
-      </div>
-    )
-  }
-
-  const onSubmit = () => {
-    startGroupDraw({ id: group.id })
+  const handleStartDraw = async () => {
+    setIsLoading(true)
+    try {
+      await startGroupDraw.mutateAsync({ id: groupId })
+    } catch (error) {
+      console.error("Failed to start draw:", error)
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
-    <>
-      <div className={containerClassName} onClick={() => setIsOpen(true)}>
-        {children}
-      </div>
-
-      <Modal
-        className="max-w-xl p-8"
-        showModal={isOpen}
-        setShowModal={setIsOpen}
-      >
-        <form className="space-y-6" onSubmit={onSubmit}>
-          <div>
-            <h2 className="text-lg/7 font-medium tracking-tight text-gray-950">
-              Start Draw
-            </h2>
-            <p className="text-sm/6 text-gray-600">
-              Click Start to begin your drawing process!
-            </p>
-          </div>
-
-          <div className="flex justify-end space-x-3 pt-4 border-t">
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => setIsOpen(false)}
-            >
-              Cancel
-            </Button>
-            <Button
-              type="submit"
-              disabled={isStartGroupDrawPending || !hasEveryoneAnswered}
-            >
-              {isStartGroupDrawPending ? "Drawing..." : "Start Draw"}
-            </Button>
-          </div>
-        </form>
-      </Modal>
-    </>
+    <Dialog open={isOpen} onOpenChange={onClose}>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Start the Draw</DialogTitle>
+          <DialogDescription>
+            Are you sure you want to start the draw? This will randomly assign
+            participants to each other and reveal their answers. This action
+            cannot be undone.
+          </DialogDescription>
+        </DialogHeader>
+        <DialogFooter>
+          <Button variant="outline" onClick={onClose} disabled={isLoading}>
+            Cancel
+          </Button>
+          <Button onClick={handleStartDraw} disabled={isLoading}>
+            {isLoading ? "Starting Draw..." : "Start Draw"}
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   )
 }
 

@@ -1,8 +1,7 @@
-import { predefinedQuestions } from "@/utils"
+import { predefinedQuestions } from "../src/utils"
 import { db } from "../src/db" // Import the db instance
-import { PrismaClient } from "@prisma/client" // Import PrismaClient if needed for type checking
 
-const seedQuestions = async () => {
+export const seedQuestions = async () => {
   console.log("Seeding predefined questions...")
 
   // Insert predefined questions into the database using the db instance
@@ -10,6 +9,7 @@ const seedQuestions = async () => {
     await db.question.create({
       data: {
         text: q, // Assuming your Prisma model has a 'question' field
+        isCustom: false, // Explicitly set predefined questions as not custom
       },
     })
   }
@@ -20,7 +20,10 @@ const seedQuestions = async () => {
   await db.$disconnect()
 }
 
-seedQuestions().catch((error) => {
-  console.error("Error seeding questions:", error)
-  process.exit(1) // Exit the process with an error code
-})
+// Only run if this file is executed directly
+if (require.main === module) {
+  seedQuestions().catch((error) => {
+    console.error("Error seeding questions:", error)
+    process.exit(1) // Exit the process with an error code
+  })
+}
