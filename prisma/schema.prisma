@@ -33,9 +33,6 @@ model User {
   wishlists     Wishlist[]
   wishlistItems WishlistItem[]
   messages      Message[]
-  reactions     Reaction[]
-  thankYouNotes ThankYouNote[]
-  giftPhotos    GiftPhoto[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -67,8 +64,7 @@ model Group {
   questions GroupQuestion[]
 
   // New relations for social features
-  messages   Message[]
-  giftPhotos GiftPhoto[]
+  messages Message[]
 }
 
 model GroupInvitation {
@@ -145,26 +141,7 @@ model Draw {
   drawingParticipant   GroupMember @relation("DrawingParticipant", fields: [drawingParticipantId], references: [id])
   drawnParticipant     GroupMember @relation("DrawnParticipant", fields: [drawnParticipantId], references: [id])
 
-  // New fields for social features
-  giftStatus   GiftStatus @default(NOT_STARTED)
-  giftNotes    String?
-  giftRevealed Boolean    @default(false)
-  revealDate   DateTime?
-
-  drawnAt      DateTime       @default(now())
-  Reaction     Reaction[]
-  ThankYouNote ThankYouNote[]
-  GiftPhoto    GiftPhoto[]
-}
-
-// New enum for gift status
-enum GiftStatus {
-  NOT_STARTED
-  IN_PROGRESS
-  PURCHASED
-  SHIPPED
-  DELIVERED
-  OPENED
+  drawnAt DateTime @default(now())
 }
 
 // New models for wishlist integration
@@ -205,41 +182,6 @@ model Message {
   user      User     @relation(fields: [userId], references: [id])
   groupId   String
   group     Group    @relation(fields: [groupId], references: [id])
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model Reaction {
-  id        String   @id @default(cuid())
-  type      String // emoji or reaction type
-  userId    String
-  user      User     @relation(fields: [userId], references: [id])
-  drawId    String
-  draw      Draw     @relation(fields: [drawId], references: [id])
-  createdAt DateTime @default(now())
-}
-
-model ThankYouNote {
-  id        String   @id @default(cuid())
-  content   String
-  userId    String
-  user      User     @relation(fields: [userId], references: [id])
-  drawId    String
-  draw      Draw     @relation(fields: [drawId], references: [id])
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model GiftPhoto {
-  id        String   @id @default(cuid())
-  url       String
-  caption   String?
-  userId    String
-  user      User     @relation(fields: [userId], references: [id])
-  groupId   String
-  group     Group    @relation(fields: [groupId], references: [id])
-  drawId    String?
-  draw      Draw?    @relation(fields: [drawId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
