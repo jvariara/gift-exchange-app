@@ -57,7 +57,7 @@ export default async function WishlistsPage({ params }: WishlistsPageProps) {
   const dehydratedState = dehydrate(queryClient)
 
   return (
-    <div className="flex min-h-[calc(100vh-theme(spacing.16))] flex-1 flex-col gap-4 p-4 md:gap-8 md:p-10">
+    <div className="flex min-h-[calc(100vh-(--spacing(16)))] flex-1 flex-col gap-4 p-4 md:gap-8 md:p-10">
       <div className="flex items-center">
         <h1 className="text-2xl font-semibold">Group Wishlists</h1>
       </div>

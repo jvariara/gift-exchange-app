@@ -35,7 +35,7 @@ const Sidebar = ({ onClose, sidebarItems }: SidebarProps) => {
       </p>
 
       {/* navigation items */}
-      <div className="flex-grow">
+      <div className="grow">
         <ul>
           {sidebarItems.map(({ category, items }) => (
             <li key={category} className="mb-4 md:mb-8">

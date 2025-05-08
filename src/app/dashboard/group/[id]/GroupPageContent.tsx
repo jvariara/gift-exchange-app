@@ -73,10 +73,10 @@ const GroupPageContent = ({
   return (
     <div className="flex flex-col gap-y-4">
       {/* Group info */}
-      <Card className="flex flex-col rounded-2xl flex-1 p-8 bg-gradient-to-br from-brand-50 to-white">
+      <Card className="flex flex-col rounded-2xl flex-1 p-8 bg-linear-to-br from-brand-50 to-white">
         <div className="flex flex-col md:flex-row items-center justify-between gap-6 mb-8">
           <div className="flex items-center gap-4">
-            <div className="size-16 bg-brand-100 rounded-xl flex items-center justify-center shadow-sm">
+            <div className="size-16 bg-brand-100 rounded-xl flex items-center justify-center shadow-xs">
               <p className="text-brand-950 font-semibold text-2xl">
                 {group.members.find((m) => m.isAdmin)?.user.name[0]}
               </p>
@@ -92,7 +92,7 @@ const GroupPageContent = ({
           </div>
 
           <div className="flex items-center gap-4">
-            <div className="size-16 bg-green-50 rounded-xl flex items-center justify-center shadow-sm">
+            <div className="size-16 bg-green-50 rounded-xl flex items-center justify-center shadow-xs">
               <p className="text-green-600 font-semibold text-xl">
                 ${group.budget || "0"}
               </p>
@@ -110,7 +110,7 @@ const GroupPageContent = ({
 
         <div className="flex flex-row items-center justify-center">
           <Link href={`/dashboard/group/${group.id}/wishlists`} className="flex-1 max-w-md mx-auto">
-            <Button className="w-full gap-x-2 py-6 text-lg shadow-sm bg-brand-50 hover:bg-brand-100 text-brand-900" variant="outline">
+            <Button className="w-full gap-x-2 py-6 text-lg shadow-xs bg-brand-50 hover:bg-brand-100 text-brand-900" variant="outline">
               <Gift className="h-5 w-5" />
               View Wishlists
             </Button>
@@ -123,7 +123,7 @@ const GroupPageContent = ({
           <div className="relative lg:row-span-2">
             <div className="absolute inset-px rounded-lg bg-white lg:rounded-l-[2rem] max-lg:rounded-t-[2rem]" />
 
-            <div className="relative flex h-full flex-col overflow-hidden rounded-[calc(theme(borderRadius.lg)+1px)] lg:rounded-l-[calc(2rem+1px)]">
+            <div className="relative flex h-full flex-col overflow-hidden rounded-[calc(var(--radius-lg)+1px)] lg:rounded-l-[calc(2rem+1px)]">
               <div className="px-8 pb-2 pt-8 sm:px-10 sm:pb-0 sm:pt-10">
                 <p className="mt-2 text-lg/7 font-medium tracking-tight text-brand-950 max-lg:text-center">
                   Questions and Answers
@@ -165,13 +165,13 @@ const GroupPageContent = ({
               </div>
             </div>
 
-            <div className="pointer-events-none absolute inset-px rounded-lg shadow ring-1 ring-black/5 lg:rounded-l-[2rem] max-lg:rounded-t-[2rem]" />
+            <div className="pointer-events-none absolute inset-px rounded-lg shadow-sm ring-1 ring-black/5 lg:rounded-l-[2rem] max-lg:rounded-t-[2rem]" />
           </div>
           {/* second bento grid element */}
           <div className="relative lg:row-span-2">
             <div className="absolute inset-px rounded-lg bg-white lg:rounded-r-[2rem] max-lg:rounded-b-[2rem]" />
 
-            <div className="relative flex h-full flex-col overflow-hidden rounded-[calc(theme(borderRadius.lg)+1px)] lg:rounded-l-[calc(2rem+1px)]">
+            <div className="relative flex h-full flex-col overflow-hidden rounded-[calc(var(--radius-lg)+1px)] lg:rounded-l-[calc(2rem+1px)]">
               <div className="px-8 pb-2 pt-8 sm:px-10 sm:pb-0 sm:pt-10">
                 <p className="mt-2 text-lg/7 font-medium tracking-tight text-brand-950 max-lg:text-center">
                   Group Members
@@ -210,7 +210,7 @@ const GroupPageContent = ({
               </div>
             </div>
 
-            <div className="pointer-events-none absolute inset-px rounded-lg shadow ring-1 ring-black/5 lg:rounded-r-[2rem] max-lg:rounded-b-[2rem]" />
+            <div className="pointer-events-none absolute inset-px rounded-lg shadow-sm ring-1 ring-black/5 lg:rounded-r-[2rem] max-lg:rounded-b-[2rem]" />
           </div>
         </div>
       ) : (
@@ -219,7 +219,7 @@ const GroupPageContent = ({
           <div className="relative lg:row-span-2">
             <div className="absolute inset-px rounded-lg bg-white lg:rounded-l-[2rem] max-lg:rounded-t-[2rem]" />
 
-            <div className="relative flex h-full flex-col overflow-hidden rounded-[calc(theme(borderRadius.lg)+1px)] lg:rounded-l-[calc(2rem+1px)]">
+            <div className="relative flex h-full flex-col overflow-hidden rounded-[calc(var(--radius-lg)+1px)] lg:rounded-l-[calc(2rem+1px)]">
               <div className="px-8 pb-2 pt-8 sm:px-10 sm:pb-0 sm:pt-10">
                 <p className="mt-2 text-lg/7 font-medium tracking-tight text-brand-950 max-lg:text-center">
                   Questions and Answers
@@ -250,13 +250,13 @@ const GroupPageContent = ({
               </div>
             </div>
 
-            <div className="pointer-events-none absolute inset-px rounded-lg shadow ring-1 ring-black/5 lg:rounded-l-[2rem] max-lg:rounded-t-[2rem]" />
+            <div className="pointer-events-none absolute inset-px rounded-lg shadow-sm ring-1 ring-black/5 lg:rounded-l-[2rem] max-lg:rounded-t-[2rem]" />
           </div>
           {/* second bento grid element */}
           <div className="relative lg:row-span-2">
             <div className="absolute inset-px rounded-lg bg-white lg:rounded-r-[2rem] max-lg:rounded-b-[2rem]" />
 
-            <div className="relative flex h-full flex-col overflow-hidden rounded-[calc(theme(borderRadius.lg)+1px)] lg:rounded-l-[calc(2rem+1px)]">
+            <div className="relative flex h-full flex-col overflow-hidden rounded-[calc(var(--radius-lg)+1px)] lg:rounded-l-[calc(2rem+1px)]">
               <div className="px-8 pb-2 pt-8 sm:px-10 sm:pb-0 sm:pt-10">
                 <div className="flex justify-between">
                   <p className="mt-2 text-lg/7 font-medium tracking-tight text-brand-950 max-lg:text-center">
@@ -308,7 +308,7 @@ const GroupPageContent = ({
               </div>
             </div>
 
-            <div className="pointer-events-none absolute inset-px rounded-lg shadow ring-1 ring-black/5 lg:rounded-r-[2rem] max-lg:rounded-b-[2rem]" />
+            <div className="pointer-events-none absolute inset-px rounded-lg shadow-sm ring-1 ring-black/5 lg:rounded-r-[2rem] max-lg:rounded-b-[2rem]" />
           </div>
         </div>
       )}

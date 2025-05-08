@@ -86,7 +86,7 @@ const DashboardPageContent = ({ userId }: DashboardPageContentProps) => {
           >
             <div className="absolute z-0 inset-px rounded-lg bg-white" />
 
-            <div className="pointer-events-none z-0 absolute inset-px rounded-lg shadow-sm transition-all duration-300 group-hover:shadow-md ring-1 ring-black/5" />
+            <div className="pointer-events-none z-0 absolute inset-px rounded-lg shadow-xs transition-all duration-300 group-hover:shadow-md ring-1 ring-black/5" />
             <div className="relative p-6 z-10">
               <div className="flex items-center gap-4 mb-6">
                 <div className="size-4 rounded-full bg-brand-700" />
