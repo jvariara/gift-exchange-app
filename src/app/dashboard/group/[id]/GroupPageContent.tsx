@@ -1,6 +1,8 @@
 "use client"
 import LoadingSpinner from "@/components/LoadingSpinner"
 import InviteLinkModal from "@/components/modals/InviteLinkModal"
+import ShinyButton from "@/components/ShinyButton"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { client } from "@/lib/client"
@@ -21,23 +23,30 @@ const GroupPageContent = ({
   hasAnsweredQuestions,
   hasEveryoneAnswered,
 }: GroupPageContentProps) => {
-  const { data: groupQuestions, isPending: isGroupQuestionsLoading, refetch: refetchGroupQuestions } = useQuery(
-    {
-      queryKey: ["group-questions", group.id],
-      queryFn: async () => {
-        const res = await client.group.getGroupQuestions.$get({ id: group.id })
-        const { questions } = await res.json()
-        return questions
-      },
-      enabled: !!group.id,
-    }
-  )
+  const {
+    data: groupQuestions,
+    isPending: isGroupQuestionsLoading,
+    refetch: refetchGroupQuestions,
+  } = useQuery({
+    queryKey: ["group-questions", group.id],
+    queryFn: async () => {
+      const res = await client.group.getGroupQuestions.$get({ id: group.id })
+      const { questions } = await res.json()
+      return questions
+    },
+    enabled: !!group.id,
+  })
 
-  const { data: groupMembers, isPending: isGroupMembersLoading, refetch: refetchGroupMembers } = useQuery({
+  const {
+    data: groupMembers,
+    isPending: isGroupMembersLoading,
+    refetch: refetchGroupMembers,
+  } = useQuery({
     queryKey: [`group-members-${group.id}`],
     queryFn: async () => {
       const res = await client.group.getGroupMembers.$get({ id: group.id })
       const { groupMembers } = await res.json()
+
       return groupMembers
     },
     enabled: !!group.id,
@@ -46,7 +55,7 @@ const GroupPageContent = ({
   const {
     data: questionsWithAnswers,
     isPending: isQuestionsWithAnswersLoading,
-    refetch: refetchQuestionsWithAnswers
+    refetch: refetchQuestionsWithAnswers,
   } = useQuery({
     queryKey: ["drawn-participant-answers", group.id],
     queryFn: async () => {
@@ -73,14 +82,26 @@ const GroupPageContent = ({
   return (
     <div className="flex flex-col gap-y-4">
       {/* Group info */}
-      <Card className="flex flex-col rounded-2xl flex-1 p-8 bg-linear-to-br from-brand-50 to-white">
+      <Card className="flex flex-col rounded-2xl flex-1 p-8">
         <div className="flex flex-col md:flex-row items-center justify-between gap-6 mb-8">
           <div className="flex items-center gap-4">
-            <div className="size-16 bg-brand-100 rounded-xl flex items-center justify-center shadow-xs">
-              <p className="text-brand-950 font-semibold text-2xl">
-                {group.members.find((m) => m.isAdmin)?.user.name[0]}
-              </p>
-            </div>
+            {group.members.find((m) => m.isAdmin)?.user.avatar ? (
+              <Avatar>
+                <AvatarImage
+                  src={
+                    group.members.find((m) => m.isAdmin)?.user.avatar ??
+                    undefined
+                  }
+                  alt="avatar"
+                />
+              </Avatar>
+            ) : (
+              <div className="size-16 bg-secondary rounded-xl flex items-center justify-center shadow-xs">
+                <p className="text-secondary-foreground font-semibold text-2xl">
+                  {group.members.find((m) => m.isAdmin)?.user.name[0]}
+                </p>
+              </div>
+            )}
             <div className="flex flex-col">
               <h2 className="text-xl font-semibold tracking-tight text-gray-950">
                 Group Admin
@@ -92,8 +113,8 @@ const GroupPageContent = ({
           </div>
 
           <div className="flex items-center gap-4">
-            <div className="size-16 bg-green-50 rounded-xl flex items-center justify-center shadow-xs">
-              <p className="text-green-600 font-semibold text-xl">
+            <div className="size-16 bg-background rounded-xl flex items-center justify-center shadow-xs">
+              <p className="text-primary font-semibold text-xl">
                 ${group.budget || "0"}
               </p>
             </div>
@@ -101,20 +122,19 @@ const GroupPageContent = ({
               <h2 className="text-xl font-semibold tracking-tight text-gray-950">
                 Budget
               </h2>
-              <p className="text-md text-gray-600">
-                Per Person
-              </p>
+              <p className="text-md text-gray-600">Per Person</p>
             </div>
           </div>
         </div>
 
         <div className="flex flex-row items-center justify-center">
-          <Link href={`/dashboard/group/${group.id}/wishlists`} className="flex-1 max-w-md mx-auto">
-            <Button className="w-full gap-x-2 py-6 text-lg shadow-xs bg-brand-50 hover:bg-brand-100 text-brand-900" variant="outline">
-              <Gift className="h-5 w-5" />
-              View Wishlists
-            </Button>
-          </Link>
+          <ShinyButton
+            href={`/dashboard/group/${group.id}/wishlists`}
+            className="flex-1 max-w-md mx-auto gap-x-2 py-3"
+          >
+            <Gift className="h-5 w-5" />
+            View Wishlists
+          </ShinyButton>
         </div>
       </Card>
       {group.hasDrawStarted ? (
@@ -125,7 +145,7 @@ const GroupPageContent = ({
 
             <div className="relative flex h-full flex-col overflow-hidden rounded-[calc(var(--radius-lg)+1px)] lg:rounded-l-[calc(2rem+1px)]">
               <div className="px-8 pb-2 pt-8 sm:px-10 sm:pb-0 sm:pt-10">
-                <p className="mt-2 text-lg/7 font-medium tracking-tight text-brand-950 max-lg:text-center">
+                <p className="mt-2 text-2xl font-medium tracking-tight text-primary max-lg:text-center">
                   Questions and Answers
                 </p>
                 <p className="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center">
@@ -146,15 +166,15 @@ const GroupPageContent = ({
                   questionsWithAnswers &&
                   questionsWithAnswers.map((answer, index) => (
                     <div className="flex mt-2" key={answer.id}>
-                      <span className="text-brand-800/80 text-3xl sm:text-5xl font-semibold tracking-wide tabular-nums">
+                      <span className="text-secondary text-3xl sm:text-5xl font-semibold tracking-wide tabular-nums">
                         0{index + 1}
                       </span>
                       <div className="flex flex-col ml-4 w-full gap-y-2">
-                        <h2 className="text-gray-800 text-xl font-medium">
+                        <h2 className="text-primary text-xl font-medium">
                           {answer.groupQuestion.question.text}
                         </h2>
                         <p className="text-md text-gray-500">
-                          <span className="text-brand-700 font-medium">
+                          <span className="text-gray-700 font-semibold">
                             Answer:
                           </span>{" "}
                           {answer.answer}
@@ -173,7 +193,7 @@ const GroupPageContent = ({
 
             <div className="relative flex h-full flex-col overflow-hidden rounded-[calc(var(--radius-lg)+1px)] lg:rounded-l-[calc(2rem+1px)]">
               <div className="px-8 pb-2 pt-8 sm:px-10 sm:pb-0 sm:pt-10">
-                <p className="mt-2 text-lg/7 font-medium tracking-tight text-brand-950 max-lg:text-center">
+                <p className="mt-2 text-2xl font-medium tracking-tight text-primary max-lg:text-center">
                   Group Members
                 </p>
                 <p className="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center">
@@ -197,12 +217,19 @@ const GroupPageContent = ({
                       className="flex items-center gap-2 sm:gap-4"
                       key={member.id}
                     >
-                      <div className="size-10 sm:size-12 bg-brand-500 rounded-full flex items-center justify-center shadow-md ring-black/5">
-                        <p className="text-brand-950 font-semibold text-lg sm:text-2xl uppercase">
-                          {member.user.name[0]}
-                        </p>
-                      </div>
-                      <p className="text-md/6 sm:text-lg/7 font-medium tracking-tight text-brand-950">
+                      {member?.user.avatar ? (
+                        <Avatar className="size-10 sm:size-12">
+                          <AvatarImage src={member.user.avatar} alt="avatar" />
+                        </Avatar>
+                      ) : (
+                        <div className="size-10 sm:size-12 bg-secondary rounded-full flex items-center justify-center shadow-md ring-black/5">
+                          <p className="text-secondary-foreground font-semibold text-lg sm:text-2xl uppercase">
+                            {member.user.name[0]}
+                          </p>
+                        </div>
+                      )}
+
+                      <p className="text-md/6 sm:text-lg/7 font-medium tracking-tight text-gray-800">
                         {member.user.name}
                       </p>
                     </div>
@@ -221,7 +248,7 @@ const GroupPageContent = ({
 
             <div className="relative flex h-full flex-col overflow-hidden rounded-[calc(var(--radius-lg)+1px)] lg:rounded-l-[calc(2rem+1px)]">
               <div className="px-8 pb-2 pt-8 sm:px-10 sm:pb-0 sm:pt-10">
-                <p className="mt-2 text-lg/7 font-medium tracking-tight text-brand-950 max-lg:text-center">
+                <p className="mt-2 text-2xl font-medium tracking-tight text-primary max-lg:text-center">
                   Questions and Answers
                 </p>
                 <p className="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center">
@@ -237,7 +264,7 @@ const GroupPageContent = ({
                   groupQuestions &&
                   groupQuestions.map((question, index) => (
                     <div className="flex mt-2" key={question.id}>
-                      <span className="text-brand-800/80 text-3xl sm:text-5xl font-semibold tracking-wide tabular-nums">
+                      <span className="text-secondary text-3xl sm:text-5xl font-semibold tracking-wide tabular-nums">
                         0{index + 1}
                       </span>
                       <div className="flex flex-col ml-4 w-full gap-y-2">
@@ -259,7 +286,7 @@ const GroupPageContent = ({
             <div className="relative flex h-full flex-col overflow-hidden rounded-[calc(var(--radius-lg)+1px)] lg:rounded-l-[calc(2rem+1px)]">
               <div className="px-8 pb-2 pt-8 sm:px-10 sm:pb-0 sm:pt-10">
                 <div className="flex justify-between">
-                  <p className="mt-2 text-lg/7 font-medium tracking-tight text-brand-950 max-lg:text-center">
+                  <p className="mt-2 text-2xl font-medium tracking-tight text-primary max-lg:text-center">
                     Group Members
                   </p>
 
@@ -295,12 +322,19 @@ const GroupPageContent = ({
                       className="flex items-center gap-2 sm:gap-4"
                       key={member.id}
                     >
-                      <div className="size-10 sm:size-12 bg-brand-500 rounded-full flex items-center justify-center shadow-md ring-black/5">
-                        <p className="text-brand-950 font-semibold text-lg sm:text-2xl uppercase">
-                          {member.user.name[0]}
-                        </p>
-                      </div>
-                      <p className="text-md/6 sm:text-lg/7 font-medium tracking-tight text-brand-950">
+                      {member?.user.avatar ? (
+                        <Avatar>
+                          <AvatarImage src={member.user.avatar} alt="avatar" />
+                        </Avatar>
+                      ) : (
+                        <div className="size-10 sm:size-12 bg-secondary rounded-full flex items-center justify-center shadow-md ring-black/5">
+                          <p className="text-secondary-foreground font-semibold text-lg sm:text-2xl uppercase">
+                            {member.user.name[0]}
+                          </p>
+                        </div>
+                      )}
+
+                      <p className="text-md/6 sm:text-lg/7 font-medium tracking-tight text-gray-800">
                         {member.user.name}
                       </p>
                     </div>

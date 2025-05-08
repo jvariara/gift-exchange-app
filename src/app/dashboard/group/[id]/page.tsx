@@ -6,6 +6,7 @@ import GroupPageContent from "./GroupPageContent"
 import AnswerQuestionModal from "@/components/modals/AnswerQuestionModal"
 import { Button } from "@/components/ui/button"
 import StartDrawButton from "./StartDrawButton"
+import { GroupWithDetailedIncludes } from "@/lib/types"
 
 interface PageProps {
   params: {
@@ -65,6 +66,7 @@ const Page = async ({ params }: PageProps) => {
   })
 
   if (!group) return notFound()
+
 
   const groupMember = await db.groupMember.findUnique({
     where: {

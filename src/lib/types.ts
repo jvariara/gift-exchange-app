@@ -42,6 +42,7 @@ export type GroupWithDetailedIncludes = Group & {
       name: string
       email: string
       wishlistItems: WishlistItem[]
+      avatar: string | null
     }
   }[]
   questions?: {

@@ -30,8 +30,8 @@ const Sidebar = ({ onClose, sidebarItems }: SidebarProps) => {
   return (
     <div className="space-y-4 md:space-y-6 relative z-20 flex flex-col h-full">
       {/* logo */}
-      <p className="hidden sm:block text-lg/7 font-semibold text-brand-900">
-        Gift<span className="text-brand-700">Match</span>
+      <p className="hidden sm:block text-lg/7 font-semibold text-gray-800">
+        Gift<span className="text-primary">Match</span>
       </p>
 
       {/* navigation items */}
@@ -49,11 +49,11 @@ const Sidebar = ({ onClose, sidebarItems }: SidebarProps) => {
                     href={item.href}
                     className={cn(
                       buttonVariants({ variant: "ghost" }),
-                      "w-full justify-start group flex items-center gap-x-2.5 rounded-md px-2 py-1.5 text-sm font-medium leading-6 text-zinc-700 hover:bg-gray-50 transition"
+                      "w-full justify-start group flex items-center gap-x-2.5 rounded-md px-2 py-1.5 text-sm font-medium leading-6 text-zinc-700 hover:bg-gray-50 hover:text-secondary transition"
                     )}
                     onClick={onClose}
                   >
-                    <item.icon className="size-4 text-zinc-500 group-hover:text-zinc-700" />
+                    <item.icon className="size-4 text-zinc-500 group-hover:text-secondary" />
                     {item.text}
                   </Link>
                 ))}
@@ -117,15 +117,15 @@ const Layout = ({ children }: PropsWithChildren) => {
   return (
     <div className="relative h-screen flex flex-col md:flex-row bg-white overflow-hidden">
       {/* sidebar for desktop */}
-      <div className="hidden md:block w-64 lg:w-80 border-r border-gray-100 p-6 h-full text-brand-900 relative z-10">
+      <div className="hidden md:block w-64 lg:w-80 border-r border-gray-100 p-6 h-full text-gray-800 relative z-10">
         <Sidebar sidebarItems={SIDEBAR_ITEMS} />
       </div>
 
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* mobile header */}
         <div className="md:hidden flex items-center justify-between p-4 border-b border-gray-200">
-          <p className="text-lg/7 font-semibold text-brand-900">
-            Gift<span className="text-brand-700">Match</span>
+          <p className="text-lg/7 font-semibold text-gray-800">
+            Gift<span className="text-primary">Match</span>
           </p>
           <button
             onClick={() => setIsDrawerOpen(true)}
@@ -150,8 +150,8 @@ const Layout = ({ children }: PropsWithChildren) => {
           setShowModal={setIsDrawerOpen}
         >
           <div className="flex justify-between items-center mb-4">
-            <p className="text-lg/7 font-semibold text-brand-900">
-              Gift<span className="text-brand-700">Match</span>
+            <p className="text-lg/7 font-semibold text-gray-800">
+              Gift<span className="text-primary">Match</span>
             </p>
             <button
               aria-label="Close modal"

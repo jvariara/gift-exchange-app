@@ -29,6 +29,7 @@ export const authRouter = router({
             auth.fullName ||
             auth.username ||
             auth.emailAddresses[0].emailAddress,
+          avatar: auth.imageUrl || undefined,
         },
       })
     }

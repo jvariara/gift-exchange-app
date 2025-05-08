@@ -4,6 +4,7 @@ import { currentUser } from "@clerk/nextjs/server"
 import { HydrationBoundary, dehydrate } from "@tanstack/react-query"
 import { notFound } from "next/navigation"
 import WishlistsPageContent from "./WishlistsPageContent"
+import DashboardPage from "@/components/DashboardPage"
 
 interface WishlistsPageProps {
   params: {
@@ -30,19 +31,19 @@ export default async function WishlistsPage({ params }: WishlistsPageProps) {
         some: {
           userId: user.id,
         },
-      }
+      },
     },
     include: {
       members: {
         include: {
           user: {
             include: {
-              wishlistItems: true
-            }
-          }
-        }
-      }
-    }
+              wishlistItems: true,
+            },
+          },
+        },
+      },
+    },
   })
 
   if (!group) {
@@ -51,22 +52,25 @@ export default async function WishlistsPage({ params }: WishlistsPageProps) {
 
   await queryClient.prefetchQuery({
     queryKey: ["group", group.id],
-    queryFn: () => group
+    queryFn: () => group,
   })
 
   const dehydratedState = dehydrate(queryClient)
 
   return (
-    <div className="flex min-h-[calc(100vh-(--spacing(16)))] flex-1 flex-col gap-4 p-4 md:gap-8 md:p-10">
-      <div className="flex items-center">
-        <h1 className="text-2xl font-semibold">Group Wishlists</h1>
-      </div>
-      <HydrationBoundary state={dehydratedState}>
-        <WishlistsPageContent 
-          group={group} 
-          currentUserId={user.id}
-        />
-      </HydrationBoundary>
-    </div>
+    // <div className="flex min-h-[calc(100vh-(--spacing(16)))] flex-1 flex-col gap-4 p-4 md:gap-8 md:p-10">
+    //   <div className="flex items-center">
+    //     <h1 className="text-2xl font-semibold">Group Wishlists</h1>
+    //   </div>
+    //   <HydrationBoundary state={dehydratedState}>
+    //     <WishlistsPageContent
+    //       group={group}
+    //       currentUserId={user.id}
+    //     />
+    //   </HydrationBoundary>
+    // </div>
+    <DashboardPage title="Group Wishlists">
+      <WishlistsPageContent group={group} currentUserId={user.id} />
+    </DashboardPage>
   )
-} 
+}

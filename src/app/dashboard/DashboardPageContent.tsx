@@ -89,7 +89,7 @@ const DashboardPageContent = ({ userId }: DashboardPageContentProps) => {
             <div className="pointer-events-none z-0 absolute inset-px rounded-lg shadow-xs transition-all duration-300 group-hover:shadow-md ring-1 ring-black/5" />
             <div className="relative p-6 z-10">
               <div className="flex items-center gap-4 mb-6">
-                <div className="size-4 rounded-full bg-brand-700" />
+                <div className="size-4 rounded-full bg-primary" />
 
                 <div>
                   <h3 className="text-lg/7 font-medium tracking-tight text-gray-950">
@@ -103,14 +103,14 @@ const DashboardPageContent = ({ userId }: DashboardPageContentProps) => {
 
               <div className="space-y-3 mb-6">
                 <div className="flex items-center text-sm/5 text-gray-600">
-                  <User className="size-4 mr-2 text-brand-500" />
+                  <User className="size-4 mr-2 text-secondary" />
                   <span className="font-medium">Total members:</span>
                   <span className="ml-1">{group._count.members}</span>
                 </div>
 
                 {group.budget && group.budget > 0 && (
                   <div className="flex items-center text-sm/5 text-gray-600">
-                    <DollarSign className="size-4 mr-2 text-brand-500" />
+                    <DollarSign className="size-4 mr-2 text-secondary" />
                     <span className="font-medium">Budget:</span>
                     <span className="ml-1">{group.budget}</span>
                   </div>
@@ -134,7 +134,7 @@ const DashboardPageContent = ({ userId }: DashboardPageContentProps) => {
                   <Button
                     variant="ghost"
                     size="sm"
-                    className="text-gray-500 hover:text-red-600 transition-colors"
+                    className="text-gray-500 hover:text-red-600 hover:bg-red-200 transition-colors hover:cursor-pointer"
                     aria-label={`Delete ${group.name}`}
                     onClick={() => {
                       setDeletingGroupName(group.name)

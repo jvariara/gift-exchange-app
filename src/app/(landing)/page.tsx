@@ -9,14 +9,14 @@ const Page = () => {
   return (
     <>
       {/* Hero */}
-      <section className="relative py-24 sm:py-32 bg-brand-25">
+      <section className="relative py-24 sm:py-32 bg-background">
         <MaxWidthWrapper className="text-center">
           <div className="relative mx-auto text-center flex flex-col items-center gap-10">
             <div>
               <Heading className="font-medium">
                 <span>Reimagine Secret Santa,</span>
                 <br />
-                <span className="relative bg-linear-to-r from-brand-500 to-brand-800 text-transparent bg-clip-text">
+                <span className="relative bg-linear-to-r from-primary to-secondary text-transparent bg-clip-text">
                   with personality-driven gift-giving
                 </span>
               </Heading>
@@ -30,7 +30,7 @@ const Page = () => {
               </span>{" "}
               with the help of{" "}
               <span className="font-semibold">
-                Gift<span className="text-brand-700">Match</span>
+                Gift<span className="text-primary">Match</span>
               </span>
             </p>
 
@@ -41,7 +41,7 @@ const Page = () => {
                 "Transform Secret Santa into a fun, connection-building experience",
               ].map((item, index) => (
                 <li key={index} className="flex gap-1.5 items-center text-left">
-                  <Check className="size-5 shrink-0 text-brand-700" />
+                  <Check className="size-5 shrink-0 text-primary" />
                   {item}
                 </li>
               ))}
@@ -60,7 +60,7 @@ const Page = () => {
       </section>
 
       {/* Steps */}
-      <section className="relative bg-brand-50 py-24 sm:py-32 h-full">
+      <section className="relative bg-muted/20 py-24 sm:py-32 h-full">
         <div className="inset-x-0 bottom-24 top-24">
           <div className="relative mx-auto">
             <MaxWidthWrapper className="relative">
@@ -75,23 +75,23 @@ const Page = () => {
                 </div>
 
                 <div className="w-full sm:w-[50%] flex flex-col gap-y-4 items-center sm:items-start">
-                  <h2 className="text-center text-base/7 font-semibold text-brand-600 uppercase">
+                  <h2 className="text-center text-base/7 font-semibold text-primary uppercase">
                     Steps
                   </h2>
                   <Heading>
                     Easy to{" "}
-                    <span className="font-medium text-brand-700">
+                    <span className="font-medium text-secondary">
                       Get Started
                     </span>
                   </Heading>
 
                   <div className="flex flex-col gap-y-6">
                     <div className="flex mt-2">
-                      <span className="text-brand-800/80 text-3xl sm:text-5xl font-semibold tracking-wide">
+                      <span className="text-primary text-3xl sm:text-5xl font-semibold tracking-wide">
                         01
                       </span>
                       <div className="flex flex-col ml-4 w-full gap-y-2">
-                        <h2 className="text-gray-800 text-xl font-medium">
+                        <h2 className="text-secondary text-xl font-medium">
                           Create a Group
                         </h2>
                         <p className="text-md text-gray-500">
@@ -102,11 +102,11 @@ const Page = () => {
                     </div>
 
                     <div className="flex mt-2">
-                      <span className="text-brand-800/80 text-3xl sm:text-5xl font-semibold tracking-wide">
+                      <span className="text-primary text-3xl sm:text-5xl font-semibold tracking-wide">
                         02
                       </span>
                       <div className="flex flex-col ml-4 w-full gap-y-2">
-                        <h2 className="text-gray-800 text-xl font-medium">
+                        <h2 className="text-secondary text-xl font-medium">
                           Answer Questions
                         </h2>
                         <p className="text-md text-gray-500">
@@ -116,16 +116,16 @@ const Page = () => {
                     </div>
 
                     <div className="flex mt-2">
-                      <span className="text-brand-800/80 text-3xl sm:text-5xl font-semibold tracking-wide">
+                      <span className="text-primary text-3xl sm:text-5xl font-semibold tracking-wide">
                         03
                       </span>
                       <div className="flex flex-col ml-4 w-full gap-y-2">
-                        <h2 className="text-gray-800 text-xl font-medium">
+                        <h2 className="text-secondary text-xl font-medium">
                           Draw
                         </h2>
                         <p className="text-md text-gray-500">
                           We will assign a random group member where you{" "}
-                          <span className="text-brand-700 font-medium">
+                          <span className="text-primary font-semibold">
                             ONLY
                           </span>{" "}
                           know the questions and answers of that specific
@@ -135,11 +135,11 @@ const Page = () => {
                     </div>
 
                     <div className="flex mt-2">
-                      <span className="text-brand-800/80 text-3xl sm:text-5xl font-semibold tracking-wide">
+                      <span className="text-primary text-3xl sm:text-5xl font-semibold tracking-wide">
                         04
                       </span>
                       <div className="flex flex-col ml-4 w-full gap-y-2">
-                        <h2 className="text-gray-800 text-xl font-medium">
+                        <h2 className="text-secondary text-xl font-medium">
                           Guess and Gift
                         </h2>
                         <p className="text-md text-gray-500">
@@ -157,15 +157,15 @@ const Page = () => {
       </section>
 
       {/* Bento Grid */}
-      <section className="relative py-24 sm:py-32 bg-brand-25">
+      <section className="relative py-24 sm:py-32 bg-background">
         <MaxWidthWrapper className="flex flex-col items-center gap-16 sm:gap-20">
           <div>
-            <h2 className="text-center text-base/7 font-semibold text-brand-600 uppercase">
+            <h2 className="text-center text-base/7 font-semibold text-primary uppercase">
               Features
             </h2>
             <Heading>
               Stay ahead of your{" "}
-              <span className="font-medium text-brand-700">Gifting fun</span>
+              <span className="font-medium text-secondary">Gifting fun</span>
             </Heading>
           </div>
 
@@ -176,7 +176,7 @@ const Page = () => {
 
               <div className="relative flex h-full flex-col overflow-hidden rounded-[calc(var(--radius-lg)+1px)] lg:rounded-l-[calc(2rem+1px)]">
                 <div className="px-8 pb-3 pt-8 sm:px-10 sm:pb-0 sm:pt-10">
-                  <p className="mt-2 text-lg/7 font-medium tracking-tight text-brand-950 max-lg:text-center">
+                  <p className="mt-2 text-lg/7 font-medium tracking-tight text-primary max-lg:text-center">
                     Personalized Wishlist
                   </p>
                   <p className="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center">
@@ -199,7 +199,7 @@ const Page = () => {
               <div className="absolute inset-px rounded-lg bg-white max-lg:rounded-t-[2rem]" />
               <div className="relative flex h-full flex-col overflow-hidden rounded-[calc(var(--radius-lg)+1px)] max-lg:rounded-t-[calc(2rem+1px)]">
                 <div className="px-8 pt-8 sm:px-10 sm:pt-10">
-                  <p className="mt-2 text-lg/7 font-medium tracking-tight text-brand-950 max-lg:text-center">
+                  <p className="mt-2 text-lg/7 font-medium tracking-tight text-primary max-lg:text-center">
                     Secret Gifting Matchmaking
                   </p>
                   <p className="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center">
@@ -222,7 +222,7 @@ const Page = () => {
               <div className="absolute inset-px rounded-lg bg-white" />
               <div className="relative flex h-full flex-col overflow-hidden rounded-[calc(var(--radius-lg)+1px)]">
                 <div className="px-8 pt-8 sm:px-10 sm:pt-10">
-                  <p className="mt-2 text-lg/7 font-medium tracking-tight text-brand-950 max-lg:text-center">
+                  <p className="mt-2 text-lg/7 font-medium tracking-tight text-primary max-lg:text-center">
                     Budget-Friendly Gifting
                   </p>
                   <p className="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center">
@@ -248,7 +248,7 @@ const Page = () => {
 
               <div className="relative flex h-full flex-col overflow-hidden rounded-[calc(var(--radius-lg)+1px)] max-lg:rounded-b-[calc(2rem+1px)] lg:rounded-r-[calc(2rem+1px)]">
                 <div className="px-8 pb-3 pt-8 sm:px-10 sm:pb-0 sm:pt-10">
-                  <p className="mt-2 text-lg/7 font-medium tracking-tight text-brand-950 max-lg:text-center">
+                  <p className="mt-2 text-lg/7 font-medium tracking-tight text-primary max-lg:text-center">
                     Connect With Friends
                   </p>
                   <p className="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center">
@@ -276,27 +276,27 @@ const Page = () => {
       <section className="relative py-24 sm:py-32 bg-white">
         <MaxWidthWrapper className="flex flex-col items-center gap-16 sm:gap-20">
           <div>
-            <h2 className="text-center text-base/7 font-semibold text-brand-600 uppercase">
+            <h2 className="text-center text-base/7 font-semibold text-primary uppercase">
               Application lovers
             </h2>
             <Heading className="text-center">
               What our users are{" "}
-              <span className="text-brand-700 font-medium">saying</span>
+              <span className="text-secondary font-medium">saying</span>
             </Heading>
           </div>
 
           <div className="mx-auto grid max-w-2xl grid-cols-1 px-4 lg:mx-0 lg:max-w-none lg:grid-cols-2 divide-y lg:divide-y-0 lg:divide-x divide-gray-200">
             {/* First customer review */}
-            <div className="flex flex-auto flex-col gap-4 bg-brand-25 p-6 sm:p-8 lg:p-16 rounded-t-[2rem] lg:rounded-tr-none lg:rounded-l-[2rem]">
+            <div className="flex flex-auto flex-col gap-4 bg-background p-6 sm:p-8 lg:p-16 rounded-t-[2rem] lg:rounded-tr-none lg:rounded-l-[2rem]">
               <div className="flex gap-0.5 mb-2 justify-center lg:justify-start">
-                <StarIcon className="size-5 text-brand-600 fill-brand-600" />
-                <StarIcon className="size-5 text-brand-600 fill-brand-600" />
-                <StarIcon className="size-5 text-brand-600 fill-brand-600" />
-                <StarIcon className="size-5 text-brand-600 fill-brand-600" />
-                <StarIcon className="size-5 text-brand-600 fill-brand-600" />
+                <StarIcon className="size-5 text-primary fill-primary" />
+                <StarIcon className="size-5 text-primary fill-primary" />
+                <StarIcon className="size-5 text-primary fill-primary" />
+                <StarIcon className="size-5 text-primary fill-primary" />
+                <StarIcon className="size-5 text-primary fill-primary" />
               </div>
 
-              <p className="text-base sm:text-lg lg:text-lg/8 font-medium tracking-tight text-brand-950 text-center lg:text-left text-pretty">
+              <p className="text-base sm:text-lg lg:text-lg/8 font-medium tracking-tight text-gray-800 text-center lg:text-left text-pretty">
                 GiftMatch has been such an enjoyable application and has such a
                 unique twist to secret santa that has made it fun with me and my
                 friends.
@@ -321,16 +321,16 @@ const Page = () => {
             </div>
 
             {/* Second customer review */}
-            <div className="flex flex-auto flex-col gap-4 bg-brand-25 p-6 sm:p-8 lg:p-16 rounded-b-[2rem] lg:rounded-bl-none lg:rounded-r-[2rem]">
+            <div className="flex flex-auto flex-col gap-4 bg-background p-6 sm:p-8 lg:p-16 rounded-b-[2rem] lg:rounded-bl-none lg:rounded-r-[2rem]">
               <div className="flex gap-0.5 mb-2 justify-center lg:justify-start">
-                <StarIcon className="size-5 text-brand-600 fill-brand-600" />
-                <StarIcon className="size-5 text-brand-600 fill-brand-600" />
-                <StarIcon className="size-5 text-brand-600 fill-brand-600" />
-                <StarIcon className="size-5 text-brand-600 fill-brand-600" />
-                <StarIcon className="size-5 text-brand-600 fill-brand-600" />
+                <StarIcon className="size-5 text-primary fill-primary" />
+                <StarIcon className="size-5 text-primary fill-primary" />
+                <StarIcon className="size-5 text-primary fill-primary" />
+                <StarIcon className="size-5 text-primary fill-primary" />
+                <StarIcon className="size-5 text-primary fill-primary" />
               </div>
 
-              <p className="text-base sm:text-lg lg:text-lg/8 font-medium tracking-tight text-brand-950 text-center lg:text-left text-pretty">
+              <p className="text-base sm:text-lg lg:text-lg/8 font-medium tracking-tight text-gray-800 text-center lg:text-left text-pretty">
                 GiftMatch has been such an enjoyable application and has such a
                 unique twist to secret santa that has made it fun with me and my
                 friends.

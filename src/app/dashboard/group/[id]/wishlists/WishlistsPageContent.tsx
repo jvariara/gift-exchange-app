@@ -102,12 +102,12 @@ export default function WishlistsPageContent({
 
   return (
     <Tabs defaultValue={currentUserId} className="w-full">
-      <TabsList className="w-full justify-start h-12 px-4 mb-6">
+      <TabsList className="w-full justify-start h-12 px-4 mb-6 bg-background gap-x-2">
         {groupData.members.map((member) => (
           <TabsTrigger
             key={member.user.id}
             value={member.user.id}
-            className="data-[state=active]:bg-brand-100"
+            className="data-[state=active]:bg-secondary data-[state=active]:text-secondary-foreground hover:cursor-pointer rounded-full"
           >
             {member.user.name}
           </TabsTrigger>
@@ -150,7 +150,7 @@ export default function WishlistsPageContent({
                 <Card key={item.id} className="p-6">
                   <div className="flex flex-col gap-2">
                     <div className="flex justify-between items-start">
-                      <h3 className="font-medium">{item.name}</h3>
+                      <h3 className="font-semibold text-2xl">{item.name}</h3>
                       {member.user.id === currentUserId && (
                         <Button
                           variant="ghost"
@@ -168,7 +168,7 @@ export default function WishlistsPageContent({
                         href={item.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-sm text-brand-600 hover:text-brand-700 flex items-center gap-1"
+                        className="text-sm text-primary hover:text-primary/60 flex items-center gap-1"
                       >
                         View Item <ExternalLink className="h-3 w-3" />
                       </a>

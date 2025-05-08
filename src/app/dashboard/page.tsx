@@ -26,7 +26,7 @@ const Page = async () => {
       hideBackButton
       cta={
         <CreateGroupModal>
-          <Button className="w-full sm:w-fit">
+          <Button className="w-full sm:w-fit hover:cursor-pointer">
             <PlusIcon className="size-4 mr-1.5" /> Create Group
           </Button>
         </CreateGroupModal>
